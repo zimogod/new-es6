@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="box"></div>
+    <script>
+        // ES6 是js中的新语法，是加了语法糖的语法   有兼容性的问题
+        // 浏览器认识的是ES5的语法
+        // 浏览器只认识 html,css,js（因为浏览器内核中有解析当前这些模块的引擎） 
+        // 如何让浏览器认识ES6语法？通过babel语法转化 -> es5的代码执行 
+
+
+        // const:只是命名常量的关键字，如3.1415926 const ADD = 'ADD';
+        //      有独立作用域，不能重新赋值
+
+        // const a = 'zimo';
+        // const a = '紫漠大仙'
+        // console.log(a);
+
+        // let 一般命名变量，有自己独立的作用域
+        // 特点：
+        //     1、不能重新赋值
+        //     2、存在块级作用域
+        //     3、没有变量提升
+        //     4、会有暂存性死区
+        // console.log(zimo);
+        // let zimo = '紫漠大仙！';
+        // for(let i=0;i<5;i++){
+        //     setTimeout(() => {
+        //         console.log(i)
+        //     }, 1000);
+        // }
+
+        // 箭头函数：
+        //     箭头本身是没有this指针  this指针是借用了直接父级的作用域(上下文)中this
+        //     箭头函数不能改变this指针  只是做了变量缓存 
+            // var that = this;
+                // 当只有一个形参时，则可以省略小括号 函数体内只有一行代码是 则可以省略函数
+                // 体的大括号
+        // let a = (b,k) => console.log(b,k)
+            
+        // a('礼金',15);
+        // var that = this;
+        // let obj = {
+        //     // this指向window
+        //     fn:()=>{console.log(this)},
+        //     fns:function(){
+        //         console.log(that)
+        //     }
+        // }
+        // obj.fn();
+        // obj.fns();
+        // ... 扩展运算符 是ES6中语法糖写法 可以将数据映射到你需要的地方  可以数组、对象
+        //     降维 只能降一维(一次)
+        // ...在vue中大量使用，辅助函数大量使用
+        // let newArr = [2,[5,6,9,8],2,2];
+        // let arr = [1,5,4,...newArr,6];
+        // console.log(arr);
+
+        // var box = document.getElementById('box');
+        // console.log(box);
+
+        // 封装方法的步骤：
+        //     1、封装当前函数的作用
+        //     2、是否有返回值
+        //     3、传几个参数
+        //     4、是否改变原数组
+        // 内置对象中所有的方法 都是原型下面的方法
+        // arguments：是一个对象 不是数组，特殊的数组 每个函数中都有一个arguments对象，
+        //             是储存所有属性、数据的特殊数组
+        
+        // 作业：封装pop shift filter slice
+
+        var o = [4,5,6,8];
+        Array.prototype.mypush = function(){
+            for(var i=0;i<arguments.length;i++){
+                this[this.length] = arguments[i];
+            }
+            return this.length;
+        }
+        // o.mypush('zimo');
+        // console.log(o.mypush('zimo'));
+        // console.log(o);
+
+
+
+        function getId(id){
+            return document.getElementById(id);
+        }
+        // console.log(getId('box'));
+        // 这种思想是从Java c++中来的   类的特点是 模块化 有自己的作用域
+
+        // id名默认挂载在window上
+        // console.log(box)
+        // class Person{//真正的类 有作用域 模块概念
+        //     constructor(name,age){
+        //         this.name = name;
+        //         this.age = age;
+        //     }
+        // }
+        // class Ass extends Person{
+        //     constructor(name,age){
+        //         super(name)
+        //     }
+        //     ddd(){
+        //         console.log(this.name,this.age)
+        //     }
+        // }
+        // var As = new Ass('zimo',25);
+        // As.ddd()
+        
+        // this.$http.get()
+        // .then((res)=>{})
+        // .then()
+        // .catch()
+        
+        // function then(){
+        //     return new Promise({})
+        // }
+
+        // function move(cb){
+        //     function move(cb){
+        //         function move(cb){}
+        //     }
+        // }
+        
+        // promise 解决了地狱回调问题
+        function Promise(){
+
+        }
+
+        // filter:是ES6中新方法，过滤器 返回被筛选出的选项 并形成一个新数组返回
+        //         没有改变原数组
+        // some:ES6中新方法，是过滤当前数组中是否有某项数据，返回布尔值 true/false
+                // 不改变原数组
+        // every:检测数组中的每一项是否都满足条件，如果有一项不满足，则返回false，不改变
+        //      原数组
+        var arr = [4,5,6,9,8,7,2,6,'zimo'];
+        var ddd = arr.every(item => typeof(item) == 'number')
+        console.log(ddd)
+        console.log(arr)
+        var m = arr.some(item => item == 10);
+        console.log(m)
+        console.log(arr)
+        var v = arr.filter((item)=> item%2 == 0);
+        // console.log(v)
+        // console.log(arr)
+
+        // 判断数据类型的方法
+        // typeof
+        // instanceof
+        // constructor
+        // Object.prototype.toString.call();
+        // Object.prototype.toString.apply();
+        // ES6中最难的知识点：promise  class
+
+        // function Promise(excutor){
+        //     var that = this;
+        //     this.status = 'pending';
+        //     this.resolved = null;
+        //     this.rejected = null;   
+        //     function resolved(){
+        //         that.resolved = resolved;
+        //         console.log('成功')
+        //     }
+        //     function rejected(){
+        //         that.rejected = rejected;
+        //         console.log('失败')
+        //     }
+        //     excutor(resolved,rejected)
+        // }
+        // var p = new Promise();
+        // p.prototype.then = function(){
+        //     return new Promise(
+        //         resolved()
+        //     )
+        // }
+        // p.prototype.catch = function(){
+        //     return new Promise(
+        //         rejected()
+        //     )
+        // }
+
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
